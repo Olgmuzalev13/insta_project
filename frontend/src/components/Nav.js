@@ -14,7 +14,9 @@ const Style = styled.div `
       }
     }
 `
-
+function handlesearch(){
+    return 1;
+}
 
 export default function Navibar() {
 
@@ -34,6 +36,7 @@ export default function Navibar() {
           <Nav.Link> <Link to="/create">Create Post</Link> </Nav.Link>
           <Nav.Link> <Link to="/chats">Chats</Link> </Nav.Link>
           <Nav.Link> <Link to="/profile">My profile</Link> </Nav.Link>
+
           <Dropdown style={{paddingLeft:'1vw'}}>
             <Dropdown.Toggle variant="dark" id="dropdown-basic">
               Notifications
@@ -64,6 +67,20 @@ export default function Navibar() {
             </div>
             </Dropdown.Menu>
           </Dropdown>
+          <Form inline>
+            <Row>
+              <Col xs="auto">
+                <Form.Control
+                  type="text"
+                  placeholder="Search"
+                  className=" mr-sm-2"
+                />
+              </Col>
+              <Col xs="auto">
+                <Button type="submit" onClick={handlesearch}>Submit</Button>
+              </Col>
+            </Row>
+          </Form>
       </Nav>
       <Nav className="ms-auto">
           <Button variant="primary" classname="mr-2" onClick={handleShow}>

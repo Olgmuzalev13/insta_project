@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Interesting from "./Interesting.js";
-import CreatePostPage from "./CreatePostPage.js";
-import chatsPage from "./chatsPage.js"
-import Profile from "./Profile.js"
-import Registration from "./Registration.js"
-import Login from "./Login.js"
+import {Interesting} from "./Interesting.jsx";
+import {CreatePostPage} from "./CreatePostPage.jsx";
+import {ChatsPage} from "./chatsPage.jsx"
+import {Profile} from "./Profile.jsx"
+import {Registration} from "./Registration.jsx"
+import {Login} from "./Login.jsx"
 import {Nav, Button, Navbar, Container, Form, Dropdown, Image, Row, Col, ButtonGroup} from 'react-bootstrap';
 
 import Navibar from "./Nav.js"
@@ -33,7 +33,7 @@ export default class HomePage extends Component {
           </Route>
           <Route exact path="/interesting" component={Interesting} />
           <Route exact path="/create" component={CreatePostPage} />
-          <Route exact path="/chats" component={chatsPage} />
+          <Route exact path="/chats" component={ChatsPage} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/registration" component={Registration} />
           <Route exact path="/login" component={Login} />

@@ -4,6 +4,7 @@ import {CreatePostPage} from "./CreatePostPage.jsx";
 import {ChatsPage} from "./chatsPage.jsx"
 import {Profile} from "./Profile.jsx"
 import {Registration} from "./Registration.jsx"
+import {SearchPage} from "./SearchPage.jsx"
 import {Login} from "./Login.jsx"
 import {Nav, Button, Navbar, Container, Form, Dropdown, Image, Row, Col, ButtonGroup} from 'react-bootstrap';
 
@@ -37,6 +38,7 @@ export default class HomePage extends Component {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/registration" component={Registration} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/search" component={SearchPage} />
         </Switch>
       </Router>
       <div class="p-3 mb-2 bg-info text-dark" style={{width:'100%', height:'10%', position:'relative', marginTop:'90%'}}>

@@ -60,6 +60,11 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'django_extensions',
     'corsheaders',
+    'django_crontab'
+]
+
+CRONJOBS = [
+    ('*/5 * * * *', 'instameter.cron.cach_maker')
 ]
 
 MIDDLEWARE = [
@@ -153,3 +158,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(os.getcwd(), 'insta_cache'),
+    }
+}

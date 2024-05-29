@@ -60,24 +60,24 @@ export const Profile = () => {
   const [nikname, setNikname] = useState("somebidy");
   const [password, setPassword] = useState("1234");
 
-  /*
-  constructor(props) {
-    super(props);
-    state = {
-      email: "a@a",
-      name: "Ivan",
-      nikname: "somebidy",
-      password: "1234"
-      //img: "/static/images/p1.png",
-    };
-
-    handleSignUpButtonPressed = handleSignUpButtonPressed.bind(this);
-    handleemail = handleemail.bind(this);
-    handlename = handlename.bind(this);
-    handleNikname = handleNikname.bind(this);
-    handlepassword = handlepassword.bind(this);
+  const errorsmessage = () => {
+    if(email.includes("@")){
+      if(name.length<3){
+        return "invalid name"
+      }
+      if(nikname.length<3){
+        return "invalid nikname"
+      }
+      if(password.length<5){
+        return "so easy password"
+      }
+      return "all right"
+    }
+    else{
+      return "there is no shuch email"
+    }
+      
   }
-*/
 
   const handleemail = (e) => {
     console.log("mail= "+email)
@@ -148,16 +148,27 @@ export const Profile = () => {
             >
               <Form.Label class="d-flex justify-content-center">Enter your name</Form.Label>
               <Form.Control as="textarea" rows={1} onChange={handlename}/>
+              <Form.Label class="d-flex justify-content-center">Enter your email</Form.Label>
+              <Form.Control as="textarea" rows={1} onChange={handleemail}/>
               <Form.Label class="d-flex justify-content-center">Enter your nikname</Form.Label>
               <Form.Control as="textarea" rows={1} onChange={handleNikname}/>
               <Form.Label class="d-flex justify-content-center">Enter your password</Form.Label>
               <Form.Control as="textarea" rows={1} onChange={handlepassword}/>
+              
             </Form.Group>
           </Form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary" onClick={handleSignUpButtonPressed} >Сохранить изменения</button>
+                
+                <Link to="/interesting">
+                <Button 
+                data-bs-toggle="tooltip" data-bs-placement="top"
+                title={""+errorsmessage()}>
+                  Сохранить изменения
+                </Button>
+                </Link>
+              
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 #from django.http import HttpResponse
 
 from django.shortcuts import render
+from django.core.cache import cache
 from rest_framework import generics, status
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -207,7 +208,11 @@ class Get_popular_tags(APIView):
 
     def get(self, request, format=None):
         if id != None:
-            post = Tegs.objects.order_by("text")
+            post = cache.get('tegs')
+            if not post:
+                post = Tegs.objects.order_by("text")
+                cache.set('tegs', post, 600)
+
             query = []
             for i in range(len(post)):
                 if len(query)>0 and query[-1][0] == Tegs_serialiser(post[i]).data["text"]:
@@ -225,3 +230,80 @@ class Get_popular_tags(APIView):
                 return Response(data1, status=status.HTTP_201_CREATED)
                 #return HttpResponse(data)
             return Response({'Room Not Found': 'Invalid Post Id.'}, status=status.HTTP_404_NOT_FOUND)
+        
+class Get_popular_users(APIView):
+
+    permission_classes = [AllowAny]
+    serializer_class = Subs
+    lookup_url_kwarg = 'id'
+
+    def get(self, request, format=None):
+        if id != None:
+            post = cache.get('popusers')
+            if not post:
+                post = Subs.objects.order_by("to_whom")
+                cache.set('popusers', post, 600)
+            
+            #return Response(Profile_serialiser(post[0]).data, status=status.HTTP_201_CREATED)
+            query = []
+            for i in range(len(post)):
+                if len(query)>0 and query[-1][0] == Subs_serialiser(post[i]).data["to_whom"]:
+                    query[-1][1]+=1
+                else:
+                    query.append([Subs_serialiser(post[i]).data["to_whom"], 1])
+            sorted(query, key=lambda x: x[1], reverse=True)
+
+            if len(post) > 0:
+                #data = []
+                post = Profile.objects.filter(id=query[0][0])
+                data = Profile_serialiser(post[0]).data
+                #data['is_host'] = self.request.session.session_key == post[0].host
+                #return Response(data, status=status.HTTP_200_OK)
+                data1 = []
+                
+                for i in range(7):
+                    a = Profile.objects.filter(id=query[i][0])
+                    data1.append(Profile_serialiser(a[0]).data["nikname"])
+                return Response(data1, status=status.HTTP_201_CREATED)
+                #return HttpResponse(data)
+            return Response({'Room Not Found': 'Invalid Post Id.'}, status=status.HTTP_404_NOT_FOUND)
+        
+class GetPost_by_header(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = Posts_serialiser
+    lookup_url_kwarg = 'header'
+
+    def get(self, request, format=None):
+        header = request.GET.get(self.lookup_url_kwarg)
+        if id != None:
+            post = Posts.objects.get(header=str(header))
+            if len(post) > 0:
+                data = []
+                for i in range(len(post)):
+                    data.append(Posts_serialiser(post[i]).data)
+                return Response(data, status=status.HTTP_200_OK)
+            return Response({'Room Not Found': 'Invalid Post Id.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'Bad Request': 'Id paramater not found in request'}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetTegs_by_id(APIView):
+
+    permission_classes = [AllowAny]
+    serializer_class = Tegs_serialiser
+    lookup_url_kwarg = 'id'
+
+    def get(self, request, format=None):
+        id = request.GET.get(self.lookup_url_kwarg)
+        if id != None:
+            post = Tegs.objects.filter(to_post=int(id))
+            if len(post) > 0:
+                data1 = []
+                for i in range(7):
+                    data1.append(Tegs_serialiser(post[i]).data["text"])
+                #data = Tegs_serialiser(post[0]).data["text"]
+                #data['is_host'] = self.request.session.session_key == post[0].host
+                return Response(data1, status=status.HTTP_200_OK)
+            return Response({'Room Not Found': 'Invalid Post Id.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'Bad Request': 'Id paramater not found in request'}, status=status.HTTP_400_BAD_REQUEST)
+

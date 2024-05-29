@@ -43,6 +43,16 @@ export const CreatePostPage = (props) =>  {
     return tegss;
   }
 
+  const errorsmessage = () => {
+    if(content.length>5){
+      return "all right"
+    }
+    else{
+      return "wright some content"
+    }
+      
+  }
+
   const [populartagslist, setpopulartagslist] = useState(populartags());
 
   const [imageURL, setImageURL] = useState();
@@ -142,8 +152,13 @@ export const CreatePostPage = (props) =>  {
            
             </Form.Group>
           </Form>
-          
-          <Button onClick={handleMakePostButtonPressed}> Post</Button>
+            <Link to="/profile">
+              <Button onClick={handleMakePostButtonPressed} 
+              data-bs-toggle="tooltip" data-bs-placement="top"
+                title={""+errorsmessage()}>
+                Post
+             </Button>
+             </Link>
       </Card>
       </div>
 

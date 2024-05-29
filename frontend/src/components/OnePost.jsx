@@ -32,6 +32,7 @@ export const OnePost = (props) => {
     const [content, set_content] =useState("content");
     const [created_at, set_created_at] =useState(null);
     const [likes_count, set_likes_count] =useState(0);
+    const [tegss, set_tegss] =useState("#tag1");
 
     function likes(){
       //console.log(props.props[1])
@@ -55,6 +56,17 @@ export const OnePost = (props) => {
         body: formData
       }).then((response) => response.json())
       .then((data) => console.log(data));
+    }
+
+    function tegs(){    
+      fetch("/api/get-tegs"  + "?id=" + (14+props.props[1]))
+      .then((response) => response.json())
+      .then((data) => {
+        set_tegss(data.join());
+        console.log(data.join())
+      });
+
+      return tegss;
     }
 
     if(props[0]==="id"){

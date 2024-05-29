@@ -20,25 +20,24 @@ export const Registration = (props) => {
   const [nikname, setNikname] = useState("somebidy");
   const [password, setPassword] = useState("1234");
 
-  /*
-  constructor(props) {
-    super(props);
-    state = {
-      email: "a@a",
-      name: "Ivan",
-      nikname: "somebidy",
-      password: "1234"
-      //img: "/static/images/p1.png",
-    };
-
-    handleSignUpButtonPressed = handleSignUpButtonPressed.bind(this);
-    handleemail = handleemail.bind(this);
-    handlename = handlename.bind(this);
-    handleNikname = handleNikname.bind(this);
-    handlepassword = handlepassword.bind(this);
+  const errorsmessage = () => {
+    if(email.includes("@")){
+      if(name.length<3){
+        return "invalid name"
+      }
+      if(nikname.length<3){
+        return "invalid nikname"
+      }
+      if(password.length<5){
+        return "so easy password"
+      }
+      return "all right"
+    }
+    else{
+      return "there is no shuch email"
+    }
+      
   }
-*/
-
   const handleemail = (e) => {
     console.log("mail= "+email)
     setEmail(e.target.value);
@@ -72,7 +71,9 @@ export const Registration = (props) => {
         password: password,
       }),
     };
-    fetch("/api/musers", requestOptions)
+
+    
+    fetch("/api/mprofile", requestOptions)
       .then((response) => response.json())
       .then((data) => console.log(data));
   }
@@ -80,6 +81,7 @@ export const Registration = (props) => {
     return (
       <>
       <div>
+      
       <Card class="d-flex justify-content-center" style={{width: '40rem', marginLeft:'20rem', marginTop:'10rem' }}>
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -103,7 +105,13 @@ export const Registration = (props) => {
               <Form.Control as="textarea" rows={1} onChange={handlepassword}/>
             </Form.Group>
           </Form>
-          <Button onClick={handleSignUpButtonPressed}> Sing up</Button>
+           <Link to="/interesting">
+            <Button onClick={handleSignUpButtonPressed} 
+            data-bs-toggle="tooltip" data-bs-placement="top"
+             title={""+errorsmessage()}>
+              Sign Up
+             </Button>
+             </Link>
       </Card>
       </div>
       </>

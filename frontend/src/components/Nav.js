@@ -21,9 +21,24 @@ function handlesearch(){
 export default function Navibar() {
 
   const [show, setShow] = useState(false);
+  const [start, setstart] = useState(false);
+  const [sear, setsear] = useState("header");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function hints (event) {
+    if(start==false){
+      setstart(true)
+      fetch("/api/get-hpost"  + "?header=" + event.target.value)
+        .then((response) => response.json())
+        .then((data) => {
+          setsear(data[0]);
+          console.log(data)
+        });
+    }
+    console.log(event.target.value)
+  }
 
   return (
     <>
@@ -74,10 +89,15 @@ export default function Navibar() {
                   type="text"
                   placeholder="Search"
                   className=" mr-sm-2"
+                  onChange={(event)=>hints(event)}
                 />
               </Col>
               <Col xs="auto">
-                <Button type="submit" onClick={handlesearch}>Submit</Button>
+                <Button type="submit" onClick={handlesearch}><Link to="/search"
+                data-bs-toggle="tooltip" data-bs-placement="top"
+                title={""+sear}>
+                  Search
+                  </Link></Button>
               </Col>
             </Row>
           </Form>

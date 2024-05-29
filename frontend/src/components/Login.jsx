@@ -18,11 +18,19 @@ export const Login = (props) => {
 
   const [nikname, setNikname] = useState("somebidy");
   const [password, setPassword] = useState("1234");
-/*
-    .handleSignUpButtonPressed = .handleSignUpButtonPressed.bind();
-    .handleNikname = .handleNikname.bind();
-    .handlepassword = .handlepassword.bind();
-  }*/
+
+  const errorsmessage = () => {
+    if(nikname.length>4){
+      if (password.length<4){
+        return "wrong password"
+      }
+      return "all right"
+    }
+    else{
+      return "there is no shuch nikname"
+    }
+      
+  }
 
   const handleNikname = (e) => {
     console.log("nikname= "+ nikname)
@@ -65,7 +73,13 @@ export const Login = (props) => {
               <Form.Control as="textarea" rows={1} onChange={handlepassword}/>
             </Form.Group>
           </Form>
-          <Button onClick={handleSignUpButtonPressed}> Log in</Button>
+          <Link to="/interesting">
+            <Button onClick={handleSignUpButtonPressed} 
+            data-bs-toggle="tooltip" data-bs-placement="top"
+             title={""+errorsmessage()}>
+              Log in
+             </Button>
+             </Link>
       </Card>
       </div>
       </>
